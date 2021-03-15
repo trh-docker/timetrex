@@ -16,10 +16,8 @@ ENV DEBIAN_FRONTEND noninteractive
 
 USER root
 
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-ENV LC_ALL en_US.UTF-8
-ADD http://www.timetrex.com/download/TimeTrex_Community_Edition-manual-installer.zip /tmp/TimeTrex.zip
+# https://www.timetrex.com/direct_download/TimeTrex_Community_Edition-manual-installer.zip
+ADD https://www.timetrex.com/direct_download/TimeTrex_Community_Edition-manual-installer.zip /tmp/TimeTrex.zip
 RUN apt-get update -y -qq && \
     apt-get dist-upgrade -y && \
     apt-get install -y locales software-properties-common && \
@@ -34,24 +32,7 @@ RUN apt-get update -y -qq && \
 
 # clean up
     apt-get autoclean && apt-get autoremove && \
-    rm -rf /var/lib/apt/lists/* && \
-
-# install timetrex
-    cd /tmp  && \
-#    wget http://www.timetrex.com/direct_download/TimeTrex_Community_Edition_v11.0.2.zip && \
-#    unzip TimeTrex_Community_Edition_v11.0.2.zip -d /var/www/html/ && \
-#    rm -f /tmp/TimeTrex_Community_Edition_v11.0.2.zip && \
-    unzip /tmp/TimeTrex.zip -d /var/www/html/ && \
-    rm -f /tmp/TimeTrex_Community_Edition-manual-installer.zip && \
-    mv /var/www/html/TimeTrex* /var/www/html/timetrex && \
-    chgrp www-data -R /var/www/html/timetrex/ && \
-    chmod 775 /var/www/html/timetrex && \
-    mkdir /database && \
-    chown -R postgres: /database && \
-    sed -i "s#data_directory =.*#data_directory = '/database'#" /etc/postgresql/9.5/main/postgresql.conf && \
-    chsh -s /bin/bash www-data &&\
-    apt-get autoclean && apt-get autoremove &&\
-    rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/* /root/*
+    rm -rf /var/lib/apt/lists/*
 
 
 COPY ["supervisord.conf", "httpd.conf", "maint.conf", "postgres.conf", "/etc/supervisor/conf.d/"]

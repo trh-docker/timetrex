@@ -1,3 +1,3 @@
 git add -A
-git commit -m "removed postgress"
+git commit -m "rewrite"
 git push
