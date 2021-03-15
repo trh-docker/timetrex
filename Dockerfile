@@ -41,4 +41,6 @@ COPY ["mpm_prefork.conf", "/etc/apache2/mods-available/mpm_prefork.conf"]
 COPY ["timetrex.ini.php.dist", "/"]
 EXPOSE 80
 
-ENTRYPOINT ["/docker-entrypoint.sh"]
+# ENTRYPOINT ["/docker-entrypoint.sh"]
+ENTRYPOINT ["/usr/bin/dumb-init", "--"]
+CMD ["/docker-entrypoint.sh"]
