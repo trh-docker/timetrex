@@ -1,3 +1,3 @@
 git add -A
-git commit -m "transfer"
+git commit -m "removed postgress"
 git push
